@@ -3,9 +3,9 @@ import { JSDOM } from "jsdom";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const dutchNoum = searchParams.get("noum");
+  const dutchNoun = searchParams.get("noun");
 
-  const res = await fetch(`https://www.welklidwoord.nl/${dutchNoum}`);
+  const res = await fetch(`https://www.welklidwoord.nl/${dutchNoun}`);
   const html = await res.text();
 
   const dom = new JSDOM(html);
@@ -14,6 +14,6 @@ export async function GET(request: NextRequest) {
   const article = querySelectorResult?.textContent;
 
   return Response.json({
-    noum: article ?? "This seems to be an invalid dutch noum",
+    noun: article ?? "This seems to be an invalid dutch noun",
   });
 }

@@ -8,17 +8,17 @@ import useDebounce from "./hooks/useDebounce";
 
 export default function Home() {
   const [search, setSearch] = useState("");
-  const [response, setResponse] = useState("Type a dutch noum here");
+  const [response, setResponse] = useState("Type a dutch noun here");
 
   useDebounce(
     () => {
       if (search === "") {
         return;
       }
-      fetch(`/api?noum=${search}`)
+      fetch(`/api?noun=${search}`)
         .then((res) => res.json())
         .then((data) => {
-          setResponse(data.noum);
+          setResponse(data.noun);
         })
         .catch((err) => {
           setResponse("An error occured");
@@ -32,7 +32,7 @@ export default function Home() {
     setSearch(e.target.value);
     const isBlank = e.target.value === "";
     if (isBlank) {
-      setResponse("Type a dutch noum here");
+      setResponse("Type a dutch noun here");
     }
   };
 
@@ -59,7 +59,7 @@ export default function Home() {
             </InputLeftElement>
             <Input
               type="text"
-              placeholder="Search for a noum"
+              placeholder="Search for a noun"
               value={search}
               onChange={handleSearch}
             />
