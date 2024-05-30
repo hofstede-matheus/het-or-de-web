@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   const dom = new JSDOM(html);
   const pageDocument = dom.window.document;
   const querySelectorResult = pageDocument.querySelector("#content > h2");
-  const article = querySelectorResult?.textContent;
+  const article = querySelectorResult?.textContent?.trim();
 
   return Response.json({
     noun: article ?? "This seems to be an invalid dutch noun",
