@@ -2,38 +2,17 @@
 import { SearchIcon } from "@chakra-ui/icons";
 import styles from "./page.module.css";
 import { InputGroup, InputLeftElement, Input, Stack } from "@chakra-ui/react";
-import { Text } from "@chakra-ui/react";
+import { Text, Spinner } from "@chakra-ui/react";
 import { useState } from "react";
-import useDebounce from "./hooks/useDebounce";
+import { useGetNoumQuery } from "./api/queries";
 
 export default function Home() {
   const [search, setSearch] = useState("");
-  const [response, setResponse] = useState("Type a dutch noun here");
 
-  useDebounce(
-    () => {
-      if (search === "") {
-        return;
-      }
-      fetch(`/api?noun=${search}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setResponse(data.noun);
-        })
-        .catch((err) => {
-          setResponse("An error occured");
-        });
-    },
-    [search],
-    800
-  );
+  const { data, isLoading, error } = useGetNoumQuery(search);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
-    const isBlank = e.target.value === "";
-    if (isBlank) {
-      setResponse("Type a dutch noun here");
-    }
   };
 
   return (
@@ -52,6 +31,8 @@ export default function Home() {
             style={{
               minWidth: "400px",
               maxWidth: "400px",
+              display: "flex",
+              flexDirection: "row",
             }}
           >
             <InputLeftElement pointerEvents="none">
@@ -59,11 +40,23 @@ export default function Home() {
             </InputLeftElement>
             <Input
               type="text"
-              placeholder="Search for a noun"
+              placeholder="Type a dutch noun here"
               value={search}
               onChange={handleSearch}
             />
           </InputGroup>
+          {isLoading && <Spinner size="lg" />}
+          {error && (
+            <Text
+              style={{
+                textAlign: "center",
+                width: "100%",
+              }}
+              fontSize="4xl"
+            >
+              An error occured
+            </Text>
+          )}
           <Text
             style={{
               textAlign: "center",
@@ -71,7 +64,7 @@ export default function Home() {
             }}
             fontSize="4xl"
           >
-            {response}
+            {data?.noun}
           </Text>
         </Stack>
       </div>

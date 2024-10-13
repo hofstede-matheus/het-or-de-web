@@ -1,10 +1,7 @@
-import { type NextRequest } from "next/server";
+"use server";
 import { JSDOM } from "jsdom";
 
-export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
-  const dutchNoun = searchParams.get("noun");
-
+export const getNoun = async (dutchNoun: string) => {
   const res = await fetch(`https://www.welklidwoord.nl/${dutchNoun}`);
   const html = await res.text();
 
@@ -13,7 +10,7 @@ export async function GET(request: NextRequest) {
   const querySelectorResult = pageDocument.querySelector("#content > h2");
   const article = querySelectorResult?.textContent?.trim();
 
-  return Response.json({
+  return {
     noun: article ?? "This seems to be an invalid dutch noun",
-  });
-}
+  };
+};
