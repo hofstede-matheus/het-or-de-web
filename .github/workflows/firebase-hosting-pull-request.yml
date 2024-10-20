@@ -17,7 +17,8 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_HET_OR_DE_WEB }}
-          projectId: het-or-de-web
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_HOFSDEV }}
+          target: het-or-de-web-hofsdev
+          projectId: hofsdev
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks

@@ -1,5 +1,15 @@
 {
   "projects": {
-    "default": "het-or-de-web"
-  }
+    "default": "hofsdev"
+  },
+  "targets": {
+    "hofsdev": {
+      "hosting": {
+        "het-or-de-web-hofsdev": [
+          "het-or-de-web-hofsdev"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
